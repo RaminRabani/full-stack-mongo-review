@@ -1,10 +1,15 @@
 
 
 controller = {
-
-
-  // (req, res) => res.send('Hello World!')
-
+  get: (req,res) => {
+    console.log('In get')
+  },
+  post: (req,res) => {
+    console.log('In post')
+  },
+  patch: (req,res) => {
+    console.log('In patch')
+  }
 
 
 }

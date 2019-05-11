@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-// const controller = require('./controller.js');
+const controller = require('./controller.js');
 
 
-router.route("/groceryList")
+router.route("/todoList")
   .get(controller.get)
   .post(controller.post)
-  .put(controller.put)
+  .patch(controller.patch)
 
   module.exports = router;
