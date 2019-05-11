@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// const db = require('./index.js'); //Dont think we need this line
 
 const listSchema = new mongoose.Schema({
   todo: {type: String, required: true},
