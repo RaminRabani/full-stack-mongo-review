@@ -1,5 +1,4 @@
 
-
 controller = {
   get: (req,res) => {
     console.log('In get')
@@ -10,11 +9,6 @@ controller = {
   patch: (req,res) => {
     console.log('In patch')
   }
-
-
 }
-
-
-
 
 module.exports = controller;
