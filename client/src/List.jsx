@@ -1,17 +1,21 @@
 import React from 'react';
 import axios from 'axios';
+import ListEntry from './ListEntry.jsx';
 
 class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       todo: '',
-      listName: '',
+      newTodo: '',
+      listName: 'Todos',
       todos: []
     }
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getTodos = this.getTodos.bind(this);
+    this.handleNewTodo = this.handleNewTodo.bind(this);
+    this.editTodo = this.editTodo.bind(this);
   }
 
   componentDidMount() {
@@ -45,14 +49,40 @@ class List extends React.Component {
     document.getElementById('form').reset();
   }
 
+  handleNewTodo(e) {
+    this.setState({
+      newTodo: e.target.value
+    })
+  }
+
+  editTodo(id) {
+    const {newTodo} = this.state;
+
+    axios.patch('/api/todoList', {id, newTodo })
+      .then(()=> this.getTodos())
+      .catch(err => console.log(err))
+
+      document.getElementById('editForm').reset();
+  }
+
   render() {
     return (
       <div>
         <h1>Todos</h1>
         <form id="form" onSubmit={this.handleSubmit}>
-          Enter new todo:<input type="text" name="todo" onKeyUp={this.handleInput}/>
-          <input type="submit" value="Submit"/>
-        </form>
+          Enter new todo:<input type="text" name="todo" onKeyUp={this.handleInput} />
+          <input type="submit" value="Submit" />
+        </form><br></br>
+        {this.state.todos.map((todo, index) => {
+          return (
+            <ListEntry
+            key={index}
+            todo={todo.todo}
+            handleNewTodo={this.handleNewTodo}
+            editTodo={this.editTodo}
+            id={todo._id}
+          />)
+        })}
       </div>
     )
   }
