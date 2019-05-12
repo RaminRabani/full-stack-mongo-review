@@ -6,10 +6,26 @@ class List extends React.Component {
     super(props);
     this.state = {
       todo: '',
-      listName: ''
+      listName: '',
+      todos: []
     }
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getTodos = this.getTodos.bind(this);
+  }
+
+  componentDidMount() {
+    this.getTodos();
+  }
+  
+  getTodos() {
+    axios.get('/api/todoList')
+      .then( ({data}) => {
+        this.setState({
+          todos: data
+        }, () => console.log(this.state.todos))
+      })
+      .catch(err => console.log(err))
   }
 
   handleInput(e) {
@@ -23,7 +39,7 @@ class List extends React.Component {
     const { todo, listName } = this.state;
 
     axios.post('/api/todoList', {todo, listName})
-      .then(() => console.log('Successful POST'))
+      .then(() => this.getTodos())
       .catch(err => console.log(err))
 
     document.getElementById('form').reset();
